@@ -2,11 +2,16 @@ module MachineTag
   # A tag which can be a machine tag.
   #
   class Tag < String
+    # The regular expression for matching the namespace and predicate portions of a machine tag
+    #
+    # @return [Regexp] the regular expression for matching the namespace and predicate portions of a machine tag
+    #
     PREFIX = /[a-z][a-z0-9_]*/i
 
     # The regular expression for matching a machine tag
     #
     # @return [Regexp] the regular expression for matching a machine tag
+    #
     MACHINE_TAG = /^(?<namespace>#{PREFIX}):(?<predicate>#{PREFIX})=(?<value>.*)$/
 
     # The namespace portion of the machine tag, +nil+ if the tag is not a machine tag
@@ -50,6 +55,8 @@ module MachineTag
     # @option options [String] :separator (',') the separator to use when +value+ is an +Array+
     #
     # @return [Tag] the machine tag
+    #
+    # @raise [ArgumentError] if the +namespace+ or +predicate+ are not in the correct format
     #
     def self.machine_tag(namespace, predicate, value, options = {})
       raise ArgumentError, "Invalid machine tag namespace: #{namespace.inspect}" unless namespace =~ /^#{PREFIX}$/
