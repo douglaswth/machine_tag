@@ -50,26 +50,17 @@ module MachineTag
     #
     # @param namespace [String] the namespace
     # @param predicate [String] the predicate
-    # @param value [String, Array, #to_s] the value
-    #
-    # @option options [String] :separator (',') the separator to use when +value+ is an +Array+
+    # @param value [String, #to_s] the value
     #
     # @return [Tag] the machine tag
     #
     # @raise [ArgumentError] if the +namespace+ or +predicate+ are not in the correct format
     #
-    def self.machine_tag(namespace, predicate, value, options = {})
+    def self.machine_tag(namespace, predicate, value)
       raise ArgumentError, "Invalid machine tag namespace: #{namespace.inspect}" unless namespace =~ /^#{PREFIX}$/
       raise ArgumentError, "Invalid machine tag predicate: #{predicate.inspect}" unless predicate =~ /^#{PREFIX}$/
 
-      options[:separator] ||= ','
-
-      case value
-      when Array
-        new("#{namespace}:#{predicate}=#{value.join(options[:separator])}")
-      else
-        new("#{namespace}:#{predicate}=#{value}")
-      end
+      new("#{namespace}:#{predicate}=#{value}")
     end
 
     # Returns whether this tag is a machine tag or not.
