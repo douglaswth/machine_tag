@@ -22,21 +22,27 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 module MachineTag
+  # The regular expression for matching the individual namespace and predicate portions of a machine tag
+  #
+  # @return [Regexp] the regular expression for matching the individual namespace and predicate portions of a machine tag
+  #
+  PREFIX = /[a-z][a-z0-9_]*/i
+
+  # The regular expression for matching the namespace and predicate portion of a machine tag
+  #
+  # @return [Regexp] the regular expression for matching the namespace and predicate portion of a machine tag
+  #
+  NAMESPACE_AND_PREDICATE = /(?<namespace>#{PREFIX}):(?<predicate>#{PREFIX})/
+
+  # The regular expression for matching a machine tag
+  #
+  # @return [Regexp] the regular expression for matching a machine tag
+  #
+  MACHINE_TAG = /^(?<namespace_and_predicate>#{NAMESPACE_AND_PREDICATE})=(?<value>.*)$/
+
   # A tag which can be a machine tag.
   #
   class Tag < String
-    # The regular expression for matching the namespace and predicate portions of a machine tag
-    #
-    # @return [Regexp] the regular expression for matching the namespace and predicate portions of a machine tag
-    #
-    PREFIX = /[a-z][a-z0-9_]*/i
-
-    # The regular expression for matching a machine tag
-    #
-    # @return [Regexp] the regular expression for matching a machine tag
-    #
-    MACHINE_TAG = /^(?<namespace>#{PREFIX}):(?<predicate>#{PREFIX})=(?<value>.*)$/
-
     # The namespace portion of the machine tag, +nil+ if the tag is not a machine tag
     #
     # @return [String, nil] the namespace portion of the machine tag, +nil+ if the tag is not a machine tag
@@ -48,6 +54,12 @@ module MachineTag
     # @return [String, nil] the predicate portion of the machine tag, +nil+ if the tag is not a machine tag
     #
     attr_reader :predicate
+
+    # The namespace and predicate portion of the machine tag, +nil+ if the tag is not a machine tag
+    #
+    # @return [String, nil] the namespace and predicate portion of the machine tag, +nil+ if the tag is not a machine tag
+    #
+    attr_reader :namespace_and_predicate
 
     # The value portion of the machine tag, +nil+ if the tag is not a machine tag
     #
@@ -62,6 +74,7 @@ module MachineTag
     def initialize(str)
       super
       if match = self.match(MACHINE_TAG)
+        @namespace_and_predicate = match[:namespace_and_predicate]
         @namespace = match[:namespace]
         @predicate = match[:predicate]
         @value = match[:value]
