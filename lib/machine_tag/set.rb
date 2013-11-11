@@ -27,7 +27,10 @@ module MachineTag
   # Set of tags which can be machine tags.
   #
   class Set < ::Set
+    attr_reader :machine_tags
+
     def initialize(enum = nil, &block)
+      @machine_tags = ::Set.new
       @tags_by_namespace = {}
       @tags_by_namespace_and_predicate = {}
       super
@@ -38,6 +41,7 @@ module MachineTag
       super(tag)
 
       if tag.machine_tag?
+        @machine_tags << tag
         @tags_by_namespace[tag.namespace] ||= ::Set.new
         @tags_by_namespace[tag.namespace] << tag
         @tags_by_namespace_and_predicate[tag.namespace_and_predicate] ||= ::Set.new
