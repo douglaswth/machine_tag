@@ -27,8 +27,18 @@ module MachineTag
   # Set of tags which can be machine tags.
   #
   class Set < ::Set
+    # The tags in the set which are machine tags
+    #
+    # @return [::Set<Tag>] the tags in the set whihc are machine tags
+    #
     attr_reader :machine_tags
 
+    # Creates a set of tags which can be machine tags. If String objects are passed in they will be
+    # converted to {Tag}.
+    #
+    # @param enum [Enumerable<Tag, String>, nil] the enumerable object of tags
+    # @param block [Proc] the optional block to preprocess elements before inserting them
+    #
     def initialize(enum = nil, &block)
       @machine_tags = ::Set.new
       @tags_by_namespace = {}
@@ -36,6 +46,12 @@ module MachineTag
       super
     end
 
+    # Adds a tag to the set of tags. If a String object is passed in it will be converted to {Tag}.
+    #
+    # @param tag [Tag, String] the tag or string to add
+    #
+    # @return [Set] the tag set
+    #
     def add(tag)
       tag = Tag.new(tag) unless tag.is_a? Tag
       super(tag)
@@ -47,8 +63,24 @@ module MachineTag
         @tags_by_namespace_and_predicate[tag.namespace_and_predicate] ||= ::Set.new
         @tags_by_namespace_and_predicate[tag.namespace_and_predicate] << tag
       end
+
+      self
     end
 
+    # Retrieves machine tags in the Set with a matching namespace or namespace and predicate.
+    #
+    # @example
+    #   tags = MachineTag::Set['a:b=x', 'a:b=y', 'a:c=z']
+    #   tags['a']       # => #<Set: {"a:b=x", "a:b=y", "a:c=z"}>
+    #   tags['a', 'b']  # => #<Set: {"a:b=x", "a:b=y"}>
+    #   tags['a:c']     # => #<Set: {"a:c=z"}>
+    #
+    # @param namespace_or_namespace_and_predicate [String] the namespace to retrieve or the namespace
+    #   and predicate to retreive combined in a string separated by +':'+
+    # @param predicate [String, nil] the predicate to retreive
+    #
+    # @return [::Set<Tag>] the machines tags that have the given namespace or namespace and predicate
+    #
     def [](namespace_or_namespace_and_predicate, predicate = nil)
       if namespace_or_namespace_and_predicate =~ /^#{PREFIX}$/
         namespace = namespace_or_namespace_and_predicate
