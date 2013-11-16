@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = MachineTag::VERSION
   spec.authors       = ["Douglas Thrift"]
   spec.email         = ["douglas@douglasthrift.net"]
-  spec.description   = %q{A Ruby library for using Machine Tags}
-  spec.summary       = %q{Library for using Machine Tags}
+  spec.description   = %q{A Ruby library for using machine tags like those used on Flickr and RightScale}
+  spec.summary       = %q{Library for using machine tags}
   spec.homepage      = "https://github.com/douglaswth/machine_tag"
   spec.license       = "MIT"
 
