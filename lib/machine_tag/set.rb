@@ -27,9 +27,15 @@ module MachineTag
   # Set of tags which can be machine tags.
   #
   class Set < ::Set
+    # The tags in the set which are not machine tags
+    #
+    # @return [::Set<Tag>] the tags in the set which are not machine tags
+    #
+    attr_reader :plain_tags
+
     # The tags in the set which are machine tags
     #
-    # @return [::Set<Tag>] the tags in the set whihc are machine tags
+    # @return [::Set<Tag>] the tags in the set which are machine tags
     #
     attr_reader :machine_tags
 
@@ -40,6 +46,7 @@ module MachineTag
     # @param block [Proc] the optional block to preprocess elements before inserting them
     #
     def initialize(enum = nil, &block)
+      @plain_tags = ::Set.new
       @machine_tags = ::Set.new
       @tags_by_namespace = {}
       @tags_by_namespace_and_predicate = {}
@@ -62,10 +69,13 @@ module MachineTag
         @tags_by_namespace[tag.namespace] << tag
         @tags_by_namespace_and_predicate[tag.namespace_and_predicate] ||= ::Set.new
         @tags_by_namespace_and_predicate[tag.namespace_and_predicate] << tag
+      else
+        @plain_tags << tag
       end
 
       self
     end
+    alias_method :<<, :add
 
     # Retrieves machine tags in the Set with a matching namespace or namespace and predicate.
     #

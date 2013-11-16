@@ -24,7 +24,8 @@
 module MachineTag
   # The regular expression for matching the individual namespace and predicate portions of a machine tag
   #
-  # @return [Regexp] the regular expression for matching the individual namespace and predicate portions of a machine tag
+  # @return [Regexp] the regular expression for matching the individual namespace and predicate
+  #   portions of a machine tag
   #
   PREFIX = /[a-z][a-z0-9_]*/i
 
@@ -57,7 +58,8 @@ module MachineTag
 
     # The namespace and predicate portion of the machine tag, +nil+ if the tag is not a machine tag
     #
-    # @return [String, nil] the namespace and predicate portion of the machine tag, +nil+ if the tag is not a machine tag
+    # @return [String, nil] the namespace and predicate portion of the machine tag, +nil+ if the tag
+    #   is not a machine tag
     #
     attr_reader :namespace_and_predicate
 
