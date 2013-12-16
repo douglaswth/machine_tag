@@ -74,6 +74,7 @@ tags.machine_tags           # => #<Set: {"geo:lat=34.4348067", "geo:lon=-119.801
 tags['geo']                 # => #<Set: {"geo:lat=34.4348067", "geo:lon=-119.8016962"}>
 tags['geo:lat']             # => #<Set: {"geo:lat=34.4348067"}>
 tags['geo', 'lon']          # => #<Set: {"geo:lon=-119.8016962"}>
+tags[/^geo:(lat|lon)$/]     # => #<Set: {"geo:lat=34.4348067", "geo:lon=-119.8016962"}>
 ```
 
 More information can be found in the [documentation].

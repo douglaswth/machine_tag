@@ -81,13 +81,15 @@ module MachineTag
     #
     # @example
     #   tags = MachineTag::Set['a:b=x', 'a:b=y', 'a:c=z']
-    #   tags['a']       # => #<Set: {"a:b=x", "a:b=y", "a:c=z"}>
-    #   tags['a', 'b']  # => #<Set: {"a:b=x", "a:b=y"}>
-    #   tags['a:c']     # => #<Set: {"a:c=z"}>
+    #   tags['a']           # => #<Set: {"a:b=x", "a:b=y", "a:c=z"}>
+    #   tags['a', 'b']      # => #<Set: {"a:b=x", "a:b=y"}>
+    #   tags['a:c']         # => #<Set: {"a:c=z"}>
+    #   tags['a', /^[bc]$/] # => #<Set: {"a:b=x", "a:b=y", "a:c=z"}>
+    #   tags[/^a:[bc]$/]    # => #<Set: {"a:b=x", "a:b=y", "a:c=z"}>
     #
-    # @param namespace_or_namespace_and_predicate [String] the namespace to retrieve or the namespace
+    # @param namespace_or_namespace_and_predicate [String, Regexp] the namespace to retrieve or the namespace
     #   and predicate to retreive combined in a string separated by +':'+
-    # @param predicate [String, nil] the predicate to retreive
+    # @param predicate [String, Regexp, nil] the predicate to retreive
     #
     # @return [::Set<Tag>] the machines tags that have the given namespace or namespace and predicate
     #
