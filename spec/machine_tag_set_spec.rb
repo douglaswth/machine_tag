@@ -44,11 +44,44 @@ describe MachineTag::Set do
   end
 
   describe '#[]' do
-    let(:tags) { MachineTag::Set.new }
+    let(:tags) do
+      MachineTag::Set[
+        'aa:cc=1',
+        'ab:cd=2',
+        'bb:cc=3',
+        'ba:dd=4',
+        'cc:ee=5',
+        'cc:ef=6',
+        'cc:ff=7',
+      ]
+    end
+
+    it 'should retrieve with a Regexp for namespace and no predicate' do
+      tags[/^a/].should eq Set['aa:cc=1', 'ab:cd=2']
+    end
+
+    it 'should retrieve with a Regexp for namespace and predicate as one argument' do
+      tags[/^.b:c.$/].should eq Set['ab:cd=2', 'bb:cc=3']
+    end
+
+    it 'should retrieve with a Regexp for namespace and a String for predicate' do
+      tags[/^[ab]/, 'cc'].should eq Set['aa:cc=1', 'bb:cc=3']
+    end
+
+    it 'should retrieve with a String for namespace and Regexp for predicate' do
+      tags['cc', /^e/].should eq Set['cc:ee=5', 'cc:ef=6']
+    end
+
+    it 'should retrieve with a Regexp for namespace and predicate' do
+      tags[/^[abc]/, /^(cc|ee)$/].should eq Set['aa:cc=1', 'bb:cc=3', 'cc:ee=5']
+    end
 
     it 'should not retrieve with an invalid predicate' do
       expect do
         tags['a', '!']
+      end.to raise_error(ArgumentError, 'Invalid machine tag predicate: "!"')
+      expect do
+        tags[/a/, '!']
       end.to raise_error(ArgumentError, 'Invalid machine tag predicate: "!"')
     end
 

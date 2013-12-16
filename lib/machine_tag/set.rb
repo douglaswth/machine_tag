@@ -92,21 +92,45 @@ module MachineTag
     # @return [::Set<Tag>] the machines tags that have the given namespace or namespace and predicate
     #
     def [](namespace_or_namespace_and_predicate, predicate = nil)
-      if namespace_or_namespace_and_predicate =~ /^#{PREFIX}$/
-        namespace = namespace_or_namespace_and_predicate
+      case namespace_or_namespace_and_predicate
+      when Regexp
+        tags = @machine_tags.select do |machine_tag|
+          machine_tag.namespace =~ namespace_or_namespace_and_predicate ||
+            machine_tag.namespace_and_predicate =~ namespace_or_namespace_and_predicate
+        end
 
-        unless predicate
-          @tags_by_namespace[namespace]
+        case predicate
+        when nil
+        when Regexp
+          tags.select! { |machine_tag| machine_tag.predicate =~ predicate }
         else
           raise ArgumentError, "Invalid machine tag predicate: #{predicate.inspect}" unless predicate =~ /^#{PREFIX}$/
-          @tags_by_namespace_and_predicate["#{namespace}:#{predicate}"]
+          tags.select! { |machine_tag| machine_tag.predicate == predicate }
         end
-      elsif namespace_or_namespace_and_predicate =~ /^#{NAMESPACE_AND_PREDICATE}$/
-        namespace_and_predicate = namespace_or_namespace_and_predicate
-        raise ArgumentError, "Separate predicate passed with namespace and predicate: #{namespace_and_predicate.inspect}, #{predicate.inspect}" if predicate
-        @tags_by_namespace_and_predicate[namespace_and_predicate]
+
+        ::Set.new tags
       else
-        raise ArgumentError, "Invalid machine tag namespace and/or predicate: #{namespace_or_namespace_and_predicate.inspect}, #{predicate.inspect}"
+        if namespace_or_namespace_and_predicate =~ /^#{PREFIX}$/
+          namespace = namespace_or_namespace_and_predicate
+
+          unless predicate
+            @tags_by_namespace[namespace]
+          else
+            case predicate
+            when Regexp
+              ::Set.new @tags_by_namespace[namespace].select { |machine_tag| machine_tag.predicate =~ predicate }
+            else
+              raise ArgumentError, "Invalid machine tag predicate: #{predicate.inspect}" unless predicate =~ /^#{PREFIX}$/
+              @tags_by_namespace_and_predicate["#{namespace}:#{predicate}"]
+            end
+          end
+        elsif namespace_or_namespace_and_predicate =~ /^#{NAMESPACE_AND_PREDICATE}$/
+          namespace_and_predicate = namespace_or_namespace_and_predicate
+          raise ArgumentError, "Separate predicate passed with namespace and predicate: #{namespace_and_predicate.inspect}, #{predicate.inspect}" if predicate
+          @tags_by_namespace_and_predicate[namespace_and_predicate]
+        else
+          raise ArgumentError, "Invalid machine tag namespace and/or predicate: #{namespace_or_namespace_and_predicate.inspect}, #{predicate.inspect}"
+        end
       end
     end
   end
