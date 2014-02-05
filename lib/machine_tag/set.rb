@@ -46,8 +46,8 @@ module MachineTag
     # @param block [Proc] the optional block to preprocess elements before inserting them
     #
     def initialize(enum = nil, &block)
-      @plain_tags = ::Set.new
-      @machine_tags = ::Set.new
+      @plain_tags = ::Set[]
+      @machine_tags = ::Set[]
       @tags_by_namespace = {}
       @tags_by_namespace_and_predicate = {}
       super
@@ -65,9 +65,9 @@ module MachineTag
 
       if tag.machine_tag?
         @machine_tags << tag
-        @tags_by_namespace[tag.namespace] ||= ::Set.new
+        @tags_by_namespace[tag.namespace] ||= ::Set[]
         @tags_by_namespace[tag.namespace] << tag
-        @tags_by_namespace_and_predicate[tag.namespace_and_predicate] ||= ::Set.new
+        @tags_by_namespace_and_predicate[tag.namespace_and_predicate] ||= ::Set[]
         @tags_by_namespace_and_predicate[tag.namespace_and_predicate] << tag
       else
         @plain_tags << tag
@@ -116,20 +116,20 @@ module MachineTag
           namespace = namespace_or_namespace_and_predicate
 
           unless predicate
-            @tags_by_namespace[namespace]
+            @tags_by_namespace[namespace] || Set[]
           else
             case predicate
             when Regexp
               ::Set.new @tags_by_namespace[namespace].select { |machine_tag| machine_tag.predicate =~ predicate }
             else
               raise ArgumentError, "Invalid machine tag predicate: #{predicate.inspect}" unless predicate =~ /^#{PREFIX}$/
-              @tags_by_namespace_and_predicate["#{namespace}:#{predicate}"]
+              @tags_by_namespace_and_predicate["#{namespace}:#{predicate}"] || Set[]
             end
           end
         elsif namespace_or_namespace_and_predicate =~ /^#{NAMESPACE_AND_PREDICATE}$/
           namespace_and_predicate = namespace_or_namespace_and_predicate
           raise ArgumentError, "Separate predicate passed with namespace and predicate: #{namespace_and_predicate.inspect}, #{predicate.inspect}" if predicate
-          @tags_by_namespace_and_predicate[namespace_and_predicate]
+          @tags_by_namespace_and_predicate[namespace_and_predicate] || Set[]
         else
           raise ArgumentError, "Invalid machine tag namespace and/or predicate: #{namespace_or_namespace_and_predicate.inspect}, #{predicate.inspect}"
         end

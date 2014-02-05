@@ -29,7 +29,7 @@ describe MachineTag::Set do
   end
 
   describe '#add' do
-    let(:tags) { MachineTag::Set.new }
+    let(:tags) { MachineTag::Set[] }
 
     it 'should add strings' do
       tags << 'a'
@@ -74,6 +74,38 @@ describe MachineTag::Set do
 
     it 'should retrieve with a Regexp for namespace and predicate' do
       tags[/^[abc]/, /^(cc|ee)$/].should eq Set['aa:cc=1', 'bb:cc=3', 'cc:ee=5']
+    end
+
+    it 'should return an empty set with a String for namespace and no predicate' do
+      tags['xx'].should eq Set[]
+    end
+
+    it 'should return an empty set with a String for namespace and predicate' do
+      tags['aa', 'xx'].should eq Set[]
+    end
+
+    it 'should return an empty set with a String for namespace and predicate as one argument' do
+      tags['aa:xx'].should eq Set[]
+    end
+
+    it 'should return an empty set with a Regexp for namespace and no predicate' do
+      tags[/^x/].should eq Set[]
+    end
+
+    it 'should return an empty set with a Regexp for namespace and predicate as one argument' do
+      tags[/^.x:y.$/].should eq Set[]
+    end
+
+    it 'should return an empty set with a Regexp for namespace and a String for predicate' do
+      tags[/^a/, 'xx'].should eq Set[]
+    end
+
+    it 'should return an empty set with a String for namespace and Regexp for predicate' do
+      tags['cc', /^x/].should eq Set[]
+    end
+
+    it 'should return an empty set with a Regexp for namespace and predicate' do
+      tags[/^a/, /^x/].should eq Set[]
     end
 
     it 'should not retrieve with an invalid predicate' do
