@@ -1,8 +1,12 @@
 # MachineTag
 
-[![Gem Version](https://badge.fury.io/rb/machine_tag.png)](http://badge.fury.io/rb/machine_tag)
-[![Build Status](https://travis-ci.org/douglaswth/machine_tag.png?branch=master)](https://travis-ci.org/douglaswth/machine_tag)
-[![Dependency Status](https://gemnasium.com/douglaswth/machine_tag.png)](https://gemnasium.com/douglaswth/machine_tag)
+[![Gem Version](http://img.shields.io/gem/v/machine_tag.svg)][gem]
+[![Build Status](http://img.shields.io/travis/douglaswth/machine_tag.svg)][travis]
+[![Dependency Status](http://img.shields.io/gemnasium/douglaswth/machine_tag.svg)](gemnasium)
+
+[gem]: https://rubygems.org/gems/machine_tag
+[travis]: http://travis-ci.org/douglaswth/machine_tag
+[gemnasium]: https://gemnasium.com/douglaswth/machine_tag
 
 MachineTag is a Ruby library for using machine tags like those used on [Flickr] and [RightScale].
 
