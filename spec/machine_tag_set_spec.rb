@@ -3,29 +3,29 @@ require 'spec_helper'
 describe MachineTag::Set do
   it 'should create sets with plain tags' do
     tags = MachineTag::Set['a', 'b', 'c']
-    tags.should eq Set['a', 'b', 'c']
-    tags.plain_tags.should eq Set['a', 'b', 'c']
-    tags.machine_tags.should be_empty
+    expect(tags).to eq Set['a', 'b', 'c']
+    expect(tags.plain_tags).to eq Set['a', 'b', 'c']
+    expect(tags.machine_tags).to be_empty
   end
 
   it 'should create sets with machine tags' do
     tags = MachineTag::Set['a:b=x', 'a:b=y', 'a:c=z', 'd:e=f']
-    tags.should eq Set['a:b=x', 'a:b=y', 'a:c=z', 'd:e=f']
-    tags.plain_tags.should be_empty
-    tags.machine_tags.should eq Set['a:b=x', 'a:b=y', 'a:c=z', 'd:e=f']
-    tags['a'].should eq Set['a:b=x', 'a:b=y', 'a:c=z']
-    tags['a:b'].should eq Set['a:b=x', 'a:b=y']
-    tags['a', 'c'].should eq Set['a:c=z']
+    expect(tags).to eq Set['a:b=x', 'a:b=y', 'a:c=z', 'd:e=f']
+    expect(tags.plain_tags).to be_empty
+    expect(tags.machine_tags).to eq Set['a:b=x', 'a:b=y', 'a:c=z', 'd:e=f']
+    expect(tags['a']).to eq Set['a:b=x', 'a:b=y', 'a:c=z']
+    expect(tags['a:b']).to eq Set['a:b=x', 'a:b=y']
+    expect(tags['a', 'c']).to eq Set['a:c=z']
   end
 
   it 'should create sets with mixed plain and machine tags' do
     tags = MachineTag::Set['a:b=x', 'a:b=y', 'a:c=z', 'd', 'e', 'f']
-    tags.should eq Set['a:b=x', 'a:b=y', 'a:c=z', 'd', 'e', 'f']
-    tags.plain_tags.should eq Set['d', 'e', 'f']
-    tags.machine_tags.should eq Set['a:b=x', 'a:b=y', 'a:c=z']
-    tags['a'].should eq Set['a:b=x', 'a:b=y', 'a:c=z']
-    tags['a:b'].should eq Set['a:b=x', 'a:b=y']
-    tags['a', 'c'].should eq Set['a:c=z']
+    expect(tags).to eq Set['a:b=x', 'a:b=y', 'a:c=z', 'd', 'e', 'f']
+    expect(tags.plain_tags).to eq Set['d', 'e', 'f']
+    expect(tags.machine_tags).to eq Set['a:b=x', 'a:b=y', 'a:c=z']
+    expect(tags['a']).to eq Set['a:b=x', 'a:b=y', 'a:c=z']
+    expect(tags['a:b']).to eq Set['a:b=x', 'a:b=y']
+    expect(tags['a', 'c']).to eq Set['a:c=z']
   end
 
   describe '#add' do
@@ -33,13 +33,13 @@ describe MachineTag::Set do
 
     it 'should add strings' do
       tags << 'a'
-      tags.first.should be_an_instance_of(MachineTag::Tag)
+      expect(tags.first).to be_an_instance_of(MachineTag::Tag)
     end
 
     it 'should add tags' do
       tag = MachineTag::Tag.new('a')
       tags << tag
-      tags.first.should be(tag)
+      expect(tags.first).to be(tag)
     end
   end
 
@@ -57,55 +57,55 @@ describe MachineTag::Set do
     end
 
     it 'should retrieve with a Regexp for namespace and no predicate' do
-      tags[/^a/].should eq Set['aa:cc=1', 'ab:cd=2']
+      expect(tags[/^a/]).to eq Set['aa:cc=1', 'ab:cd=2']
     end
 
     it 'should retrieve with a Regexp for namespace and predicate as one argument' do
-      tags[/^.b:c.$/].should eq Set['ab:cd=2', 'bb:cc=3']
+      expect(tags[/^.b:c.$/]).to eq Set['ab:cd=2', 'bb:cc=3']
     end
 
     it 'should retrieve with a Regexp for namespace and a String for predicate' do
-      tags[/^[ab]/, 'cc'].should eq Set['aa:cc=1', 'bb:cc=3']
+      expect(tags[/^[ab]/, 'cc']).to eq Set['aa:cc=1', 'bb:cc=3']
     end
 
     it 'should retrieve with a String for namespace and Regexp for predicate' do
-      tags['cc', /^e/].should eq Set['cc:ee=5', 'cc:ef=6']
+      expect(tags['cc', /^e/]).to eq Set['cc:ee=5', 'cc:ef=6']
     end
 
     it 'should retrieve with a Regexp for namespace and predicate' do
-      tags[/^[abc]/, /^(cc|ee)$/].should eq Set['aa:cc=1', 'bb:cc=3', 'cc:ee=5']
+      expect(tags[/^[abc]/, /^(cc|ee)$/]).to eq Set['aa:cc=1', 'bb:cc=3', 'cc:ee=5']
     end
 
     it 'should return an empty set with a String for namespace and no predicate' do
-      tags['xx'].should eq Set[]
+      expect(tags['xx']).to eq Set[]
     end
 
     it 'should return an empty set with a String for namespace and predicate' do
-      tags['aa', 'xx'].should eq Set[]
+      expect(tags['aa', 'xx']).to eq Set[]
     end
 
     it 'should return an empty set with a String for namespace and predicate as one argument' do
-      tags['aa:xx'].should eq Set[]
+      expect(tags['aa:xx']).to eq Set[]
     end
 
     it 'should return an empty set with a Regexp for namespace and no predicate' do
-      tags[/^x/].should eq Set[]
+      expect(tags[/^x/]).to eq Set[]
     end
 
     it 'should return an empty set with a Regexp for namespace and predicate as one argument' do
-      tags[/^.x:y.$/].should eq Set[]
+      expect(tags[/^.x:y.$/]).to eq Set[]
     end
 
     it 'should return an empty set with a Regexp for namespace and a String for predicate' do
-      tags[/^a/, 'xx'].should eq Set[]
+      expect(tags[/^a/, 'xx']).to eq Set[]
     end
 
     it 'should return an empty set with a String for namespace and Regexp for predicate' do
-      tags['cc', /^x/].should eq Set[]
+      expect(tags['cc', /^x/]).to eq Set[]
     end
 
     it 'should return an empty set with a Regexp for namespace and predicate' do
-      tags[/^a/, /^x/].should eq Set[]
+      expect(tags[/^a/, /^x/]).to eq Set[]
     end
 
     it 'should not retrieve with an invalid predicate' do
