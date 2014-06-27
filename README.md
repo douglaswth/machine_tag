@@ -2,7 +2,7 @@
 
 [![Gem Version](http://img.shields.io/gem/v/machine_tag.svg?style=flat)][gem]
 [![Build Status](http://img.shields.io/travis/douglaswth/machine_tag.svg?style=flat)][travis]
-[![Dependency Status](http://img.shields.io/gemnasium/douglaswth/machine_tag.svg?style=flat)](gemnasium)
+[![Dependency Status](http://img.shields.io/gemnasium/douglaswth/machine_tag.svg?style=flat)][gemnasium]
 
 [gem]: https://rubygems.org/gems/machine_tag
 [travis]: http://travis-ci.org/douglaswth/machine_tag
