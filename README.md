@@ -1,10 +1,12 @@
 # MachineTag
 
-[![Gem Version](http://img.shields.io/gem/v/machine_tag.svg?style=flat)][gem]
-[![Build Status](http://img.shields.io/travis/douglaswth/machine_tag.svg?style=flat)][travis]
-[![Dependency Status](http://img.shields.io/gemnasium/douglaswth/machine_tag.svg?style=flat)][gemnasium]
+[![Gem Version](https://img.shields.io/gem/v/machine_tag.svg?style=flat)][gem]
+[![Release](https://img.shields.io/github/release/douglaswth/machine_tag.svg?style=flat)][release]
+[![Build Status](https://img.shields.io/travis/douglaswth/machine_tag.svg?style=flat)][travis]
+[![Dependency Status](https://img.shields.io/gemnasium/douglaswth/machine_tag.svg?style=flat)][gemnasium]
 
 [gem]: https://rubygems.org/gems/machine_tag
+[release]: https://github.com/douglaswth/machine_tag/releases/latest
 [travis]: http://travis-ci.org/douglaswth/machine_tag
 [gemnasium]: https://gemnasium.com/douglaswth/machine_tag
 
