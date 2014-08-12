@@ -1,9 +1,9 @@
 # MachineTag
 
-[![Gem Version](https://img.shields.io/gem/v/machine_tag.svg?style=flat)][gem]
-[![Release](https://img.shields.io/github/release/douglaswth/machine_tag.svg?style=flat)][release]
-[![Build Status](https://img.shields.io/travis/douglaswth/machine_tag.svg?style=flat)][travis]
-[![Dependency Status](https://img.shields.io/gemnasium/douglaswth/machine_tag.svg?style=flat)][gemnasium]
+[![Gem Version](https://img.shields.io/gem/v/machine_tag.svg?style=flat-square)][gem]
+[![Release](https://img.shields.io/github/release/douglaswth/machine_tag.svg?style=flat-square)][release]
+[![Build Status](https://img.shields.io/travis/douglaswth/machine_tag.svg?style=flat-square)][travis]
+[![Dependency Status](https://img.shields.io/gemnasium/douglaswth/machine_tag.svg?style=flat-square)][gemnasium]
 
 [gem]: https://rubygems.org/gems/machine_tag
 [release]: https://github.com/douglaswth/machine_tag/releases/latest
