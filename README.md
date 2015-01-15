@@ -85,7 +85,7 @@ tags[/^geo:(lat|lon)$/]     # => #<Set: {"geo:lat=34.4348067", "geo:lon=-119.801
 
 More information can be found in the [documentation].
 
-[documentation]: http://rubydoc.info/gems/machine_tag/frame
+[documentation]: http://rubydoc.info/gems/machine_tag
 
 ## Contributing
 
